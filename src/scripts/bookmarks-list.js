@@ -19,14 +19,14 @@ const generateBookmarkHTML = () => {
 const generateBookmarkbodyHTML = (bookmark) => {
     let bookmarkDetails = generateDetailedBookmarkHTML(bookmark);
     if (store.detailed && bookmark.focused) {
-        return `<div class="bookmarkDetails">
+        return `<li><div class="bookmarkDetails">
         ${bookmarkDetails}
-        </div>`;
+        </div></li>`;
     } else {
         return `
-        <div class="bookmark inList" id=${bookmark.id}>
+        <li><div class="bookmark inList" id=${bookmark.id}>
             <div>
-                <h2>${bookmark.title}</h2>
+                <h3>${bookmark.title}</h3>
                 <div class="rating-box">
                     ${generateBookmarkRatings(bookmark)}
                 </div>
@@ -34,7 +34,7 @@ const generateBookmarkbodyHTML = (bookmark) => {
             <div class="more" aria-pressed="false">
                 <i class="fas fa-angle-down"></i>
             </div>
-        </div>`;
+        </div></li>`;
     }
 };
 const generateStartScreenHTML = () => {
@@ -44,8 +44,9 @@ const generateStartScreenHTML = () => {
         filterOptions.push(`<option value="${i}">${i}+ Stars</option>`);
     }
     return `
+    <div id="bookmark-appWindow">
     <div class="title-section">
-        <h3>My Bookmarks</h3>
+        <h1>My Bookmarks</h1>
     </div>
     <div class="filterNAdd">
         <div id="filter-box">
@@ -55,12 +56,13 @@ const generateStartScreenHTML = () => {
                     ${filterOptions.join(" ")}
                     </select>
                 </form>
-                </div>
-                    <h3 id="plus">+</h3>
-                </div>
-                <div class="bookmark-list">
-                    ${bookmarkList.join(" ")}
-                </div>
+        </div>
+        <h2 id="plus">Add +</h2>
+    </div>
+    <ul class="bookmark-list">
+        ${bookmarkList.join(" ")}
+    </ul>
+    </div>
     `;
 };
 const generateDetailedBookmarkHTML = (bookmark) => {
@@ -133,21 +135,21 @@ const generalRatings = () => {
 
 const generateErrorRating = (rating) => {
     let html = [];
-    console.log(`passed into generateErrorRating`, typeof rating);
+    //console.log(`passed into generateErrorRating`, typeof rating);
     for (let i = 1; i <= 5; i++) {
         if (i === parseInt(rating)) {
-            console.log("Found the Rating we need to check!");
+            //console.log("Found the Rating we need to check!");
             html.push(`
             <div class="radio-buttons">  
-            <input type="radio" name="rating" id="rating${i}" value="${i}" checked="checked">
+            <input type="radio" name="rating" id="rating${i}" value="${i}" checked="checked" aria-pressed="false">
                 <span><i class="fas fa-smile-wink"></i></span>
                 <span>${i}</span>
             </div>`);
         } else {
-            console.log(`Adding default values`);
+            //console.log(`Adding default values`);
             html.push(`
             <div class="radio-buttons">  
-            <input type="radio" name="rating" id="rating${i}" value="${i}">
+            <input type="radio" name="rating" id="rating${i}" value="${i}" aria-pressed="false">
                 <span><i class="fas fa-smile-wink"></i></span>
                 <span>${i}</span>
             </div>`);
@@ -184,25 +186,26 @@ const generateAddEditBookmarkHTML = () => {
         `;
     }
     return `
-    <div class="book-mark-edit-screen">
+    <div class="bookmark-appWindow-edit">
                 <div class="title-section-edit">
-                    <h3>My Bookmarks</h3>
+                    <h1>My Bookmarks</h1>
                 </div>
-
+                ${errorBox}
                 <form id="bookmarkData" class="content" name="bookmarkData">
                 <label for="url">URL:</label>
                 <input type="text" name="url" id="url" placeholder="Add your link here" value="${url}">
                 <label for="title">Site Title:</label>
                 <input type="text" name="title" id="title" placeholder="Add your title here" value="${title}">
                 <Label for="rating">Rating:
+                <div>
                 ${ratings}
+                </div>
                 </Label>
                 <textarea name="desc" id="bookmark-description" cols="25" rows="10" placeholder="Add your description here....">${description}</textarea>
-                <div>
+                <div class="button-section">
                     <button class="cancel-button">Cancel</button>
                     <button type="submit" value="Submit!">${finalButton}</button>
                 </div>
-                ${errorBox}
                 </form>
             </div>
     `;
