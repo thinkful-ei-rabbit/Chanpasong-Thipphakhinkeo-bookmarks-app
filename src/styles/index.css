@@ -1,31 +1,44 @@
 html, body {
   max-width: 100%;
+  height: 100%;
   overflow-x: hidden;
 }
-
+main {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  background-image: url("../images/GRIS___Unused_Blossom.0.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+h1{
+  margin:0;
+  font-size: 2.5em;
+  text-decoration: underline;
+  margin-bottom: 20px;
+  color: #fff;
+}
 
 h2{
   margin: 0;
   margin-bottom: 10px;
+  color: #fff;
 }
-
+h3{
+  font-size: 1.8em;
+}
+#bookmark-appWindow{
+  width: 100%;
+}
 
 .title-section{
   width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 1.5em;
-  padding-left: 5%;
-}
-.title-section h3 {
-  text-decoration: underline;
+  padding-top: 20px;
+  padding-left: 1%;
 }
 #plus{
   cursor: pointer;
-}
-#plus h3 {
-  margin: 0;
 }
 .filterNAdd{
   margin: 0;
@@ -34,21 +47,21 @@ h2{
   display: flex;
   justify-content: space-between;
   width: 100%;
+  color: #fff;
 }
-.filterNAdd h3 {
+.filterNAdd h2 {
   margin: 0;
 }
 .filterNAdd #plus{
-  margin-top: -65px;
   margin-right: 10%;
-  font-size: 5.5em;
+  font-size: 1.8em;
 }
 .filterNAdd #filter-box{
-  border: solid 3px #000;
+  border: solid 3px #fff;
   font-size: 1em;
   padding: 8px 12px;
   align-self: flex-start;
-  margin-left: 5%;
+  margin-left: 1%;
 }
 .filterNAdd #filter-box form{
   display: flex;
@@ -60,12 +73,17 @@ h2{
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  list-style-type: none;
+  padding: 0;
 }
-.bookmark-list div.bookmark {
+.bookmark-list li {
+  flex-basis: 100%;
+}
+.bookmark-list li div.bookmark {
   border: solid #000 3px;
   padding: 10px 5px;
-  flex-basis: 100%;
   margin: 1px;
+  background: white;
 }
 .bookmark-list div.more{
   cursor: pointer;
@@ -98,7 +116,7 @@ div.bookmark.inList{
   align-items: center;
 }
 div.bookmark.inList div.more{
-  align-self: flex-end;
+
 }
 
 div h4 {
@@ -111,33 +129,6 @@ div h4 {
 }
 .inline-edit{
   cursor: pointer;
-}
-.detailedBookmark{
-  border: solid 3px #000;
-  background-color: #fff;
-  align-self: center;
-}
-.detailedBookmark .focusedBookmarkTitle{
-  display: flex;
-  justify-content: space-between;
-  border-bottom: solid 3px #000;
-  align-items: center;
-}
-.detailedBookmark .focusedBookmarkTitle .inline-edit.done{
-  border-style: outset;
-  border-radius: 2px;
-  border-width: 2px;
-}
-.detailedBookmark .focusedBookmarkContent {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px 0;
-}
-.detailedBookmark .bookTitle-left-box{
-  display: flex;
-  flex-direction: column;
-  width: 100%;
 }
 .errorbox:before{
   content: '';  
@@ -179,7 +170,8 @@ div h4 {
   box-shadow: 1px 1px 1px #aaaaaa;
   margin-top: 10px;
   color: #fff;
-  width: 50%;
+  width: 30%;
+  align-self: center;
 }
 .errorbox-form p {
   font-style: italic;
@@ -191,8 +183,37 @@ div h4 {
 .detailedBookmark h3{
   font-size: 2em;
 }
+.detailedBookmark{
+  border: solid 3px #000;
+  background-color: #fff;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+}
+.detailedBookmark .bookTitle-left-box{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.detailedBookmark .focusedBookmarkTitle{
+  display: flex;
+  justify-content: space-between;
+  border-bottom: solid 3px #000;
+  align-items: center;
+}
+.detailedBookmark .focusedBookmarkTitle .inline-edit.done{
+  border-style: outset;
+  border-radius: 2px;
+  border-width: 2px;
+}
+.detailedBookmark .focusedBookmarkContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 30px;
+}
 .detailedBookmark .focusedBookmarkContent .rating-box{
-  width: 80%;
+  width: 100%;
   text-align: center;
   font-size: 2.5em;
 }
@@ -200,6 +221,7 @@ div h4 {
   border: solid 3px lightgray;
   background-color: lightgray;
   padding: 10px 15px;
+  margin: 20px 0;
 }
 
 .detailedBookmark .focusedBookmarkContent p {
@@ -208,35 +230,71 @@ div h4 {
   width: 100%;
 }
 
+.detailedBookmark button {
+  border-style: none;
+  align-self: flex-end;
+  color: #fff;
+  background-color: red;
+  cursor: pointer;
+}
+
 /*-----------------------------------------------------------EDIT SCREEN STYLES---------------------------------------------**/
-.book-mark-edit-screen{
+.bookmark-appWindow-edit{
   width: 100%;
   height: auto;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  border: solid 3px #000;
+  align-items: flex-start;
+  padding: 30px 20px;
 }
-.book-mark-edit-screen form{
+.bookmark-appWindow-edit form{
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   text-align: left;
   width: 90%;
-  padding: 30px 0px;
+  padding: 0px;
 }
-form label{
+.bookmark-appWindow-edit label{
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+form input[type="text"]{
+  margin-bottom: 20px;
+  width: 100%;
+  font-size: 1.8em;
+}
+.bookmark-appWindow-edit label[for="rating"]{
+  width: 100%;
   display: flex;
+  font-size: 2em;
+  align-items: center;
+  margin-bottom: 50px;
+}
+.bookmark-appWindow-edit label[for="rating"] div{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
 }
 form .radio-buttons{
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+form .radio-buttons:first-child{
+  margin-left: 30px;
+}
 form .radio-buttons input {
-  position: absolute;
-  opacity: 0;
+  font-size: 2em;
+  position: relative;
+  opacity: 100;
   cursor: pointer;
+  bottom: -50px;
+}
+input[type=radio] {
+  border: 0px;
+  height: 1em;
+  width: 40%;
 }
 form .radio-buttons:hover input ~ span i{
   color: royalblue;
@@ -246,8 +304,54 @@ form .radio-buttons input:checked ~ span i{
 }
 form #bookmark-description{
   white-space: normal;
-  width: 80%;
+  width: 100%;
+  font-size: 1.3em;
+}
+form .button-section{
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 20px;
+}
+form .button-section button{
+  background-color: #296983;
+  border-style: none;
+  font-size: 2em;
+  color: #fff;
+  padding: 15px 20px;
+  cursor: pointer;
 }
 .book-mark-edit-screen .content{
   border: solid 3px #000;
+}
+
+@media all and (min-width: 600px){
+  h1{
+    font-size: 4em;
+    margin: 0;
+  }
+  #bookmark-appWindow{
+    max-width: 1000px;
+  }
+  .filterNAdd{
+    justify-content: space-around;
+    margin-top: 5%;
+  }
+  .filterNAdd #plus{
+    font-size: 3.8em;
+  }
+  .filterNAdd form {
+    font-size: 2.0em;
+  }
+  .bookmark-appWindow-edit{
+    align-items: center;
+  }
+  input[type=radio] {
+    border: 0px;
+    height: 1em;
+    width: 19%;
+  }
+}
+@media all and (min-width: 700px){
+
 }
