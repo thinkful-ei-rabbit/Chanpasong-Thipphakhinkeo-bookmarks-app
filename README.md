@@ -1,7 +1,7 @@
 # Chanpasong-Thipphakhinkeo-bookmarks-app
 
-##A Fun Bookmark App that uses HTML, CSS, Javascript and jQuery!
-
+## A Fun Bookmark App that uses HTML, CSS, Javascript and jQuery!
+ 
 This app can:
 -Add Bookmarks into the List
 -Show a list of all stored BookMarks in the App when in loads
