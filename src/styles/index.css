@@ -1,0 +1,177 @@
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.hidden{
+  display: none;
+}
+.title-section{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.5em;
+  padding-left: 5%;
+}
+.title-section h3 {
+  text-decoration: underline;
+}
+#plus{
+  cursor: pointer;
+}
+#plus h3 {
+  margin: 0;
+}
+.filterNAdd{
+  margin: 0;
+  margin-bottom: 5%;
+  text-decoration: none;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.filterNAdd h3 {
+  margin: 0;
+}
+.filterNAdd #plus{
+  margin-top: -65px;
+  margin-right: 10%;
+  font-size: 5.5em;
+}
+.filterNAdd #filter-box{
+  border: solid 3px #000;
+  font-size: 1em;
+  padding: 8px 12px;
+  align-self: flex-start;
+  margin-left: 5%;
+}
+.filterNAdd #filter-box form{
+  display: flex;
+}
+.filterNAdd #filter-box label{
+  margin-right: 20px;
+}
+.bookmark-list{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.bookmark-list div.bookmark {
+  border: solid #000 3px;
+  padding: 10px 5px;
+  flex-basis: 100%;
+  margin: 1px;
+}
+.bookmark-list div.more{
+  cursor: pointer;
+  font-size: 3em;
+  margin-right: 4%;
+}
+.bookmark-list div.rating-box{
+  border: none;
+}
+
+/* Change how Rating appears-----Might still do this, javascript maybe faster or more effecient EDIT: IT WAS*/
+/*Four Stars*/
+.bookmark-list div.rating-box.fourStars i:last-child{
+  display: none;
+}
+/*Three Stars*/
+.bookmark-list div.rating-box.threeStars i:nth-child(even){
+  display: none;
+}
+/*Two Stars*/
+.bookmark-list div.rating-box.twoStars i:nth-child(odd){
+  display: none;
+}
+
+
+div.bookmark.inList{
+  display: flex;
+  flex-direction: column;
+}
+div.bookmark.inList div.more{
+  align-self: flex-end;
+  margin-bottom: -16%;
+}
+/* Detailed Styles*/
+.bookmarkDetails{
+  width: 100%;
+}
+.inline-edit{
+  cursor: pointer;
+}
+.detailedBookmark{
+  border: solid 3px #000;
+  background-color: #fff;
+  align-self: center;
+}
+.detailedBookmark .focusedBookmarkTitle{
+  display: flex;
+  justify-content: flex-end;
+  border-bottom: solid 3px #000;
+}
+.detailedBookmark .focusedBookmarkTitle h3{
+  margin: auto;
+}
+.detailedBookmark .focusedBookmarkContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 20px;
+}
+.detailedBookmark .focusedBookmarkContent .rating-box{
+  width: 80%;
+  text-align: center;
+  font-size: 2.5em;
+}
+.detailedBookmark .focusedBookmarkContent .visit-box{
+  border: solid 3px lightgray;
+  background-color: lightgray;
+  padding: 10px 15px;
+}
+
+/*-----------------------------------------------------------EDIT SCREEN STYLES---------------------------------------------**/
+.book-mark-edit-screen{
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: solid 3px #000;
+}
+.book-mark-edit-screen form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: left;
+  width: 90%;
+  padding: 30px 0px;
+}
+form label{
+  display: flex;
+}
+form .radio-buttons{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+form .radio-buttons input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+form .radio-buttons:hover input ~ span i{
+  color: royalblue;
+}
+form .radio-buttons input:checked ~ span i{
+  color: red;
+}
+form #bookmark-description{
+  white-space: normal;
+  width: 80%;
+}
+.book-mark-edit-screen .content{
+  border: solid 3px #000;
+}

@@ -1,0 +1,35 @@
+{
+  "name": "Chanpasong-Thipphakhinkeo-bookmarks-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack-dev-server",
+    "build": "webpack --mode production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thinkful-ei-rabbit/Chanpasong-Thipphakhinkeo-bookmarks-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thinkful-ei-rabbit/Chanpasong-Thipphakhinkeo-bookmarks-app/issues"
+  },
+  "homepage": "https://github.com/thinkful-ei-rabbit/Chanpasong-Thipphakhinkeo-bookmarks-app#readme",
+  "dependencies": {
+    "cuid": "^2.1.8",
+    "jquery": "^3.5.1"
+  },
+  "devDependencies": {
+    "css-loader": "^4.2.1",
+    "file-loader": "^6.0.0",
+    "html-webpack-plugin": "^4.3.0",
+    "style-loader": "^1.2.1",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  }
+}
