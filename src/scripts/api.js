@@ -51,13 +51,12 @@ const createItem = function (bookmark) {
 };
 
 const updateItem = function (id, updateData) {
-    const newBookmarkValues = JSON.stringify(updateData);
     return listApiFetch(`${BASE_URL}/bookmarks/${id}`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: newBookmarkValues
+        body: JSON.stringify(updateData)
     });
 };
 

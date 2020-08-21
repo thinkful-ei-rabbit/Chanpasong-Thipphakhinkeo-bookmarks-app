@@ -1,67 +1,78 @@
 /* eslint-disable quotes */
 import bookmark from './bookmark';
-import $ from 'jquery';
 
 const bookmarks = [];
-const editAdd ={
+const editAdd = {
   edit: false,
   add: false
 };
 const filterValue = 1;
 const detailed = false;
+const error = false;
+const errorMessage = "";
+let errorPlaceHolder = {
+  title: "",
+  desc: "",
+  url: "",
+  rating: "",
+};
+
+
 const findById = function (id) {
-  return bookmarks.find(currentItem => {
-    return currentItem.id === id;
-  });
+  return this.bookmarks.find(currentItem => currentItem.id === id);
 };
 
 const findFocusedItem = function () {
   //console.log('trying to find this item with id of', id);
-  return bookmarks.find(currentItem => currentItem.focused === true);
+  return this.bookmarks.find(currentItem => currentItem.focused === true);
 };
 
-const findEditItem = function () {
-  return bookmarks.find(currentBookmark => currentBookmark.edit === true);
+const findInlineEditItem = function () {
+  return this.bookmarks.find(currentBookmark => currentBookmark.inlineEdit === true);
 };
 
+const findAndToggleFocused = function(id) {
+  //console.log(this.bookmarks);
+  const currentBookmark = this.findById(id);
+  currentBookmark.focused = !currentBookmark.focused;
+};
+
+const findAndToggleInlineEdit = function(id) {
+  const currentBookmark = this.findById(id);
+  currentBookmark.inlineEdit = !currentBookmark.inlineEdit;
+};
+
+
+const findAndUpdateName = function (id, name) {
+  //console.log(`Trying to replace id:${id}, with title: ${name}`);
+  const currentItem = this.findById(id);
+  //console.log(currentItem);
+  Object.assign(currentItem, name);
+};
 const addBookmark = function (currentBookmark) {
   try {
+    //console.log(`Adding this to the local store`, currentBookmark);
     this.bookmarks.push(bookmark.create(currentBookmark));
+    //console.log(`This is the new store`, this.bookmarks);
   } catch (e) {
     console.log(e.message);
   }
 };
-
-const findAndToggleFocused = id => {
-  //console.log("Before we find the bookmark, using", id);
-  //console.log(id);
-  const currentBookmark = findById(id);
-  currentBookmark.focused = !currentBookmark.focused;
-};
-
-const findAndToggleEdit = id => {
-  const currentBookmark = findById(id);
-  currentBookmark.edit = !currentBookmark.edit;
-};
-
-const findAndUpdateName = function (id, name) {
-  try {
-    bookmark.validateName(name);
-    const currentItem = this.findById(id);
-    currentItem.name = name;
-  } catch (e) {
-    console.log('Cannot update name: ' + e.message);
-  }
-};
-
 const findAndDelete = function (id) {
   //console.log(`${id} in find and delete`);
   this.bookmarks = this.bookmarks.filter(currentItem => {
     return currentItem.id !== id;
   });
 };
-
-const resetEditOrAddStatus = () =>{
+const resetErrorPlaceHolder = ()=>{
+  errorPlaceHolder = {
+    title: "",
+    desc: "",
+    url: "",
+    rating: "",
+  };
+};
+const resetEditOrAddStatus = () => {
   editAdd.add = false;
   editAdd.edit = false;
 };
@@ -71,13 +82,17 @@ export default {
   bookmarks,
   editAdd,
   filterValue,
+  error,
+  errorPlaceHolder,
+  errorMessage,
   findById,
   findFocusedItem,
-  findEditItem,
   addBookmark,
   findAndToggleFocused,
-  findAndToggleEdit,
   resetEditOrAddStatus,
   findAndUpdateName,
+  findAndToggleInlineEdit,
+  findInlineEditItem,
+  resetErrorPlaceHolder,
   findAndDelete,
 };

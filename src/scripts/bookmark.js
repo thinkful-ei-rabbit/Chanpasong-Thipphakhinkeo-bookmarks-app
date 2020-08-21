@@ -13,7 +13,8 @@ const create = function(bookmark) {
     url:bookmark.url,
     rating: bookmark.rating,
     focused: false,
-    edit: false
+    edit: false,
+    inlineEdit: false
   };
 };
 

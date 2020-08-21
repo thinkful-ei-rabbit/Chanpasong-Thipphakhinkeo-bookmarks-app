@@ -3,9 +3,13 @@ html, body {
   overflow-x: hidden;
 }
 
-.hidden{
-  display: none;
+
+h2{
+  margin: 0;
+  margin-bottom: 10px;
 }
+
+
 .title-section{
   width: 100%;
   display: flex;
@@ -70,6 +74,7 @@ html, body {
 }
 .bookmark-list div.rating-box{
   border: none;
+  font-size: 2em;
 }
 
 /* Change how Rating appears-----Might still do this, javascript maybe faster or more effecient EDIT: IT WAS*/
@@ -89,12 +94,17 @@ html, body {
 
 div.bookmark.inList{
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }
 div.bookmark.inList div.more{
   align-self: flex-end;
-  margin-bottom: -16%;
 }
+
+div h4 {
+  margin-top: 0;
+}
+
 /* Detailed Styles*/
 .bookmarkDetails{
   width: 100%;
@@ -109,17 +119,77 @@ div.bookmark.inList div.more{
 }
 .detailedBookmark .focusedBookmarkTitle{
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   border-bottom: solid 3px #000;
+  align-items: center;
 }
-.detailedBookmark .focusedBookmarkTitle h3{
-  margin: auto;
+.detailedBookmark .focusedBookmarkTitle .inline-edit.done{
+  border-style: outset;
+  border-radius: 2px;
+  border-width: 2px;
 }
 .detailedBookmark .focusedBookmarkContent {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 10px 20px;
+  padding: 20px 0;
+}
+.detailedBookmark .bookTitle-left-box{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.errorbox:before{
+  content: '';  
+  width: 0;  
+  height: 0;  
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid #c51244;
+  position: absolute;  
+  top: -10px; 
+}
+.errorbox{
+  background: #c51244;
+  padding: 10px;
+  border-radius: 0;
+  position: relative; 
+  display: inline-block;
+  box-shadow: 1px 1px 1px #aaaaaa;
+  margin-top: -24px;
+  color: #fff;
+  width: 50%;
+}
+.errorbox:before{
+  content: '';  
+  width: 0;  
+  height: 0;  
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid #c51244;
+  position: absolute;  
+  top: -10px; 
+}
+.errorbox-form{
+  background: #c51244;
+  padding: 10px;
+  border-radius: 0;
+  position: relative; 
+  display: inline-block;
+  box-shadow: 1px 1px 1px #aaaaaa;
+  margin-top: 10px;
+  color: #fff;
+  width: 50%;
+}
+.errorbox-form p {
+  font-style: italic;
+}
+.detailedBookmark .errorbox p {
+  margin: 0;
+  margin-right: 2px;
+}
+.detailedBookmark h3{
+  font-size: 2em;
 }
 .detailedBookmark .focusedBookmarkContent .rating-box{
   width: 80%;
@@ -130,6 +200,12 @@ div.bookmark.inList div.more{
   border: solid 3px lightgray;
   background-color: lightgray;
   padding: 10px 15px;
+}
+
+.detailedBookmark .focusedBookmarkContent p {
+  overflow-y: scroll;
+  height: 150px;
+  width: 100%;
 }
 
 /*-----------------------------------------------------------EDIT SCREEN STYLES---------------------------------------------**/

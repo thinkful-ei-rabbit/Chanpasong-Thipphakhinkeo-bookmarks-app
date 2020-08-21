@@ -10,7 +10,7 @@ const generateBookmarkHTML = () => {
         //If the bookmark is biger than the filter push it into the array.
         if (bookmark.rating >= store.filterValue) {
             bookmarkList.push(
-                    generateBookmarkbodyHTML(bookmark)
+                generateBookmarkbodyHTML(bookmark)
             );
         }
     });
@@ -18,19 +18,21 @@ const generateBookmarkHTML = () => {
 };
 const generateBookmarkbodyHTML = (bookmark) => {
     let bookmarkDetails = generateDetailedBookmarkHTML(bookmark);
-    if(store.detailed && bookmark.focused){
-        return`<div class="bookmarkDetails">
+    if (store.detailed && bookmark.focused) {
+        return `<div class="bookmarkDetails">
         ${bookmarkDetails}
         </div>`;
-    }else{
+    } else {
         return `
         <div class="bookmark inList" id=${bookmark.id}>
-            <div class="more">
-                <i class="fas fa-angle-down"></i>
+            <div>
+                <h2>${bookmark.title}</h2>
+                <div class="rating-box">
+                    ${generateBookmarkRatings(bookmark)}
+                </div>
             </div>
-            <h4>${bookmark.title}</h4>
-            <div class="rating-box">
-                ${generateBookmarkRatings(bookmark)}
+            <div class="more" aria-pressed="false">
+                <i class="fas fa-angle-down"></i>
             </div>
         </div>`;
     }
@@ -62,21 +64,34 @@ const generateStartScreenHTML = () => {
     `;
 };
 const generateDetailedBookmarkHTML = (bookmark) => {
-    //console.log(focusedBookmark);
-    //Decepcradted cause no modal
-    // if (store.detailed) {
-    //     //Reset its focus back, so we can have new focused!
-    //     let focusedBookmark = store.findFocusedItem();
-    //     store.findAndToggleFocused(focusedBookmark.id);
-    // }
+    let errorBox = "";
+    let bookMarkTitleHead = ` 
+    <div><h3 class="bookMark-title">${bookmark.title}
+    <span class="inline-edit initial" aria-pressed="false"><i class="fas fa-pencil-alt"></i></span></h3></div>`;
+    if(store.error){
+        console.log("There's an ERROR!", store.errorMessage);
+        errorBox = `<div class="errorbox">
+        <p>Hey, the name can't be blank!</p>
+        <span>
+            (${store.errorMessage})
+        </span>
+        </div>`;
+        bookMarkTitleHead = `<h3><input id="input-titleEdit" type="text" value="${bookmark.title}">
+        <span class="inline-edit done"><i class="fas fa-pencil-alt"></i></span></h3>`;
+    }
+    let bookMarkDesc = "";
+    if (bookmark.desc !== "") {
+        bookMarkDesc = `<p>${bookmark.desc}</p>`;
+    }
     return `
             <div id="${bookmark.id}" class="bookmark detailedBookmark">
                     <div class="focusedBookmarkTitle">
-                        <h3 class="bookMark-title">${bookmark.title}<span class="inline-edit"><i class="fas fa-pencil-alt"></i></span></h3>
-                        <div class="more">
+                            ${bookMarkTitleHead}
+                        <div class="more" aria-pressed="false">
                             <i class="fas fa-angle-down"></i>
                         </div>
                     </div>
+                    ${errorBox}
                     <div class="focusedBookmarkContent">
                         <div class="rating-box">
                             ${generateBookmarkRatings(bookmark)}
@@ -84,9 +99,9 @@ const generateDetailedBookmarkHTML = (bookmark) => {
                         <div class="visit-box">
                             <a href="${bookmark.url}" target="_blank">Visit Site</a>
                         </div>
-                        <p>${bookmark.desc}</p>
+                        ${bookMarkDesc}
                     </div>
-                    <button class="edit-button">Edit</button>
+                    <!--<button class="edit-button">Edit</button>-->
                     <button class="delete-button">Delete</button>
             </div>
     `;
@@ -105,13 +120,38 @@ const generateBookmarkRatings = (bookmark) => {
 
 const generalRatings = () => {
     let html = [];
-    for(let i = 0; i <= 5; i++){
+    for (let i = 1; i <= 5; i++) {
+        html.push(`
+            <div class="radio-buttons">  
+            <input type="radio" name="rating" id="rating${i}" value="${i}">
+                <span><i class="fas fa-smile-wink"></i></span>
+                <span>${i}</span>
+            </div>`);
+    }
+    return html.join(" ");
+};
+
+const generateErrorRating = (rating) => {
+    let html = [];
+    console.log(`passed into generateErrorRating`, typeof rating);
+    for (let i = 1; i <= 5; i++) {
+        if (i === parseInt(rating)) {
+            console.log("Found the Rating we need to check!");
+            html.push(`
+            <div class="radio-buttons">  
+            <input type="radio" name="rating" id="rating${i}" value="${i}" checked="checked">
+                <span><i class="fas fa-smile-wink"></i></span>
+                <span>${i}</span>
+            </div>`);
+        } else {
+            console.log(`Adding default values`);
             html.push(`
             <div class="radio-buttons">  
             <input type="radio" name="rating" id="rating${i}" value="${i}">
                 <span><i class="fas fa-smile-wink"></i></span>
                 <span>${i}</span>
             </div>`);
+        }
     }
     return html.join(" ");
 };
@@ -122,18 +162,26 @@ const generateAddEditBookmarkHTML = () => {
     let url = "";
     let finalButton = "Create";
     let ratings = generalRatings();
-    //if we enter from a expanded view reset 
-    //Original
+    let errorBox= "";
+    //let errorPlaceholder = "";
     store.detailed = false;
-    if (store.editAdd.edit) {
-        let currentEditItem = store.findEditItem();
-        console.log(`We are going to edit an item`);
-        title = currentEditItem.title;
-        description = currentEditItem.desc;
-        url = currentEditItem.url;
-        finalButton = "Edit";
-        ratings = changeEditScreenRating();
+    // If there was an error
+    if (store.error) {
+        //let currentEditItem = returnValuesFromError();
         //console.log(url);
+        console.log("Passed in these values from errorPlaceholder", store.errorPlaceHolder);
+        title = store.errorPlaceHolder.title;
+        url = store.errorPlaceHolder.url;
+        description = store.errorPlaceHolder.desc;
+        ratings = generateErrorRating(store.errorPlaceHolder.rating);
+        errorBox = `
+            <div class="errorbox-form">
+                <h2>Error:</h2>
+                <h3>Please Check the Title and/or URL</h3>
+                <p>Details Below:<p>
+                <p>(${store.errorMessage})</p>
+            </div>
+        `;
     }
     return `
     <div class="book-mark-edit-screen">
@@ -154,9 +202,27 @@ const generateAddEditBookmarkHTML = () => {
                     <button class="cancel-button">Cancel</button>
                     <button type="submit" value="Submit!">${finalButton}</button>
                 </div>
+                ${errorBox}
                 </form>
             </div>
     `;
+};
+
+const generateEditTitleHTML = () => {
+    let bookmark = store.findInlineEditItem();
+    //console.log(`Hey we're trying to edit, editor-value`, store.editAdd.edit);
+    if (store.editAdd.edit) {
+        return `
+        <input id="input-titleEdit" type="text" value="${bookmark.title}">
+            <span class="inline-edit done"><i class="fas fa-pencil-alt"></i></span>
+        `;
+    } else {
+        return `
+        <h3>${bookmark.title}
+        <span class="inline-edit done"><i class="fas fa-pencil-alt"></i></span>
+        </h3>
+        `;
+    }
 };
 
 const renderAddEditBookmarkScreen = () => {
@@ -169,50 +235,19 @@ const renderStartScreen = () => {
     $('main').html(html);
 };
 
-const changeEditScreenRating = () => {
-    let bookmark = store.findEditItem();
-    let html = [];
-    for(let i = 0; i <= 5; i++){
-        if(bookmark.rating === i){
-            html.push(`
-            <div class="radio-buttons">  
-            <input type="radio" name="rating" id="rating${i}" value="${i}" checked="checked">
-                <span><i class="fas fa-smile-wink"></i></span>
-                <span>${i}</span>
-            </div>`);
-        }
-        else {
-            html.push(`
-            <div class="radio-buttons">  
-            <input type="radio" name="rating" id="rating${i}" value="${i}">
-                <span><i class="fas fa-smile-wink"></i></span>
-                <span>${i}</span>
-            </div>`);
-        }
-    }
-    return html.join(' ');
-};
-
 const returnValuesFromError = (bookmarkData) => {
     console.log("adding old values from error");
-    $(`main form #title`).attr('value', bookmarkData.title);
-    $(`main form #url`).attr('value', bookmarkData.url);
-    $(`main form #rating${bookmarkData.rating}`).attr('checked', true);
-    $(`main form #desc`).attr('desc', bookmarkData.desc);
+    store.errorPlaceHolder.title = bookmarkData.title;
+    store.errorPlaceHolder.desc = bookmarkData.desc;
+    store.errorPlaceHolder.rating = bookmarkData.rating;
+    store.errorPlaceHolder.url = bookmarkData.url;
 
 };
 
 const render = function () {
     console.log("re-rendering");
-    //console.log(store.bookmarks);
-    //console.log(`HEY , EDIT VALUE${store.editAdd.edit}`);
-    if (store.editAdd.add || store.editAdd.edit) {
+    if (store.editAdd.add) {
         renderAddEditBookmarkScreen();
-        if (store.editAdd.edit) {
-            //When it's at the edit screen, checks the correct rating intially!
-            let bookmark = store.findEditItem();
-            bookmark.edit = !bookmark.edit;
-        }
     } else {
         renderStartScreen();
         // Change the filter to the "selected" value
@@ -222,27 +257,90 @@ const render = function () {
 
 /**---------------------------------------------Handlers And Stuff Below ------------------------------------*/
 
+const checkIfWeAreInEdit = (id = "") =>{
+    let editItem = store.findInlineEditItem();
+    if (store.editAdd.edit && id !== "") {
+        console.log("Started editing but we expanded instead!");
+        store.editAdd.edit = !store.editAdd.edit;
+        //Switch the edit value off
+        // console.log();
+        // console.log(id);
+        //Turn off the bookMarks Inline Edit Value
+        store.findAndToggleInlineEdit(id);
+        // editBookmark.edit = !editBookmark;
+    } else if(store.editAdd.edit && editItem !== undefined){
+        console.log("We were in edit but we clicked somewhere else!");
+        store.editAdd.edit = !store.editAdd.edit;
+        editItem.inlineEdit = !editItem.inlineEdit;
+    }
+};
+const checkIfWeAreInAnError = () => {
+    //This checks if we were to leave the error somehow, reset the view
+    if(store.error){
+        store.error = !store.error;
+    }
+};
 const handleNewBookmark = function () {
     $(`main`).on('click', '#plus', () => {
+        // If we are coming from detailed view
+        checkIfWeAreInAnError();
+        if (store.detailed) {
+            console.log("Hey something is in detailed!\nReset It");
+            let bookmark = store.findFocusedItem();
+            bookmark.focused = !bookmark.focused;
+            //turn off
+            store.detailed = !store.detailed;
+        }
         store.editAdd.add = true;
         render();
     });
 };
 
+/// -----------------FUNCTION FOR EXPANDER----------------------(Big because I forget where it is sometimes)--------------------
 const handleBookMarkDetails = function () {
-        $(`main`).on(`click`, `div.more`, (event) => {
-            const id = getIdFromElement(event.currentTarget);
+    $(`main`).on(`click`, `div.more`, (event) => {
+        checkIfWeAreInAnError();
+        //Handle a prexisting expanded one.
+        let previousExpandedBookmark = store.findFocusedItem();
+        const id = getIdFromElement(event.currentTarget);
+        if (previousExpandedBookmark !== undefined) {
+            console.log("There is a previous one!");
+
+            //if we expand from an edited item
+            checkIfWeAreInEdit(id);
+
+            //Turn off the previous one
+            store.findAndToggleFocused(previousExpandedBookmark.id);
+            //IF WE ARE TRYING TO TURN OF THE CURRENT ONE
+            if (id === previousExpandedBookmark.id) {
+                //console.log(`You're clicking to close the current one!`);
+                //Close the view
+                store.detailed = !store.detailed;
+                //If we are trying to expand from an edit
+                render();
+            } else {
+                //If we are turning off the first, turn this on
+                //console.log(`You're clicking a new one to open`);
+                store.findAndToggleFocused(id);
+                render();
+            }
+            // render();
+        } else {
+            //For "new" expands
+            console.log("You're clicking on to expand the bookmark!");
             store.findAndToggleFocused(id);
-            // //console.log("You're clicking on the bookmark!");
             store.detailed = !store.detailed;
             render();
-        });
+        }
+    });
 };
 
 const handleFilter = () => {
     $(`main`).on(`change`, `select`, () => {
         let value = $(`main select`).val();
         store.filterValue = value;
+        checkIfWeAreInEdit();
+        checkIfWeAreInAnError();
         render();
     });
 };
@@ -256,79 +354,109 @@ const handleDeleteBookmark = function () {
     $('main').on('click', '.delete-button', event => {
         const id = getIdFromElement(event.currentTarget);
         // delete the item
+        checkIfWeAreInAnError();
+        //Most likely it was in detailed
+        if (store.detailed) {
+            console.log("Hey something is in detailed!\nReset It");
+            let bookmark = store.findFocusedItem();
+            bookmark.focused = !bookmark.focused;
+            //turn off
+            store.detailed = !store.detailed;
+        }
         api.deleteItem(id).then(() => {
             store.findAndDelete(id);
-            //Close the modal as well
-            store.detailed = false;
             render();
         });
     });
 };
 
-const handleEditBookmark = function () {
-    $(`main`).on('click', '.edit-button', (event) => {
-        const id = getIdFromElement(event.currentTarget);
-        store.editAdd.edit = true;
-        store.findAndToggleEdit(id);
-        render();
-    });
-};
-
-const handleCancelEdit = () => {
+const handleCancelCreate = () => {
     $(`main`).on('click', 'form .cancel-button', (event) => {
         console.log('Clicking the cancel-button');
         event.preventDefault();
         //reset the edit & add property
-        if(store.detailed){
-            let bookmark = store.findFocusedItem();
-            bookmark.focused = !bookmark.focused;
-        }
         store.resetEditOrAddStatus();
-        //reset the editted bookmark
+        //Reset if we come from an error
+        checkIfWeAreInAnError();
+        store.error = false;
+        store.resetErrorPlaceHolder();
         render();
     });
 };
 const handleInLineEdit = () => {
-    
+    $(`main`).on('click', '.inline-edit.initial', (event) => {
+        let id = getIdFromElement(event.currentTarget);
+        //Check for a previous edit in progress
+        let editCheckBM = store.findInlineEditItem();
+        if(editCheckBM !== undefined){
+            editCheckBM.inlineEdit = !editCheckBM.inlineEdit;
+        }
+        //Continue with the new edit
+        store.findAndToggleInlineEdit(id);
+        store.editAdd.edit = true;
+        let html = generateEditTitleHTML();
+        $(`main .bookMark-title`).html(html);
+    });
 };
-const handleCreateOrEdit = () => {
+
+const handleInlineEditBookmarkDone = function () {
+    //if they the button again
+    $(`main`).on('click', '.inline-edit.done', (event) => {
+        const id = getIdFromElement(event.currentTarget);
+        //should turn it back off after we grab this time
+        let value = { title: $(`main #input-titleEdit`).val() };
+        api.updateItem(id, value).then(() => {
+            store.editAdd.edit = false;
+            let html = generateEditTitleHTML(id);
+            store.findAndUpdateName(id, value);
+            $(`main .bookMark-title`).html(html);
+            store.findAndToggleInlineEdit(id);
+            store.error = false;
+            render();
+        }).catch(e => {
+            console.log(`Error! Display Message!`);
+
+            store.error = true;
+            store.errorMessage = e.message;
+            render();
+            //alert(e.message);
+        });
+    });
+    //if they press enter
+};
+
+const handleCreate = () => {
     $(`main`).on('click', 'form button[type="submit"]', (event) => {
         event.preventDefault();
+        //reset the expanded if we enter from it
         //Find the Form
         let bookmarkSubmission = $(`main`).children().children()[1];
         //console.log(bookmarkSubmission);
         //Get FormData from it
         let bookmarkData = new FormData(bookmarkSubmission);
         let bookmarkDataBody = {};
-        for (var pair of bookmarkData.entries()) {
+        for (let pair of bookmarkData.entries()) {
             bookmarkDataBody[pair[0]] = pair[1];
         }
-        //console.log(bookmarkDataBody);
-
-        if (store.editAdd.edit) {
-            //Do stuff here when patch
-            //Reset Status
-            store.resetEditOrAddStatus();
-            //Get the data
-
-        } else if (store.editAdd.add) {
-            //Do stuff here when add
-            //Get the data and send it
-            api.createItem(bookmarkDataBody)
+        //Do stuff here when add
+        //Get the data and send it
+        api.createItem(bookmarkDataBody)
             .then((newBookmark) => {
                 //Reset Status
                 store.resetEditOrAddStatus();
                 //grabListAgain();
                 store.addBookmark(newBookmark);
+                store.error = false;
+                store.resetErrorPlaceHolder();
                 render();
             }).catch(error => {
-                alert(error.message);
+                store.error = true;
+                store.errorMessage = error.message;
+                returnValuesFromError(bookmarkDataBody);
                 render();
                 //populate the forms with previous data
-                returnValuesFromError(bookmarkDataBody);
-
             });
-        }
+
     });
 };
 
@@ -337,9 +465,11 @@ const bindEventListeners = function () {
     handleBookMarkDetails();
     handleFilter();
     handleDeleteBookmark();
-    handleEditBookmark();
-    handleCancelEdit();
-    handleCreateOrEdit();
+    //handleEditBookmark();
+    handleCancelCreate();
+    handleCreate();
+    handleInLineEdit();
+    handleInlineEditBookmarkDone();
 };
 
 // This object contains the only exposed methods from this module:
