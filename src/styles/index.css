@@ -246,6 +246,7 @@ div h4 {
   overflow-y: scroll;
   height: 150px;
   width: 100%;
+  font-size: 1.2em;
 }
 /* Delete Button */
 .detailedBookmark button {
@@ -369,6 +370,9 @@ form .button-section button{
   }
   .detailedBookmark .focusedBookmarkContent .rating-box{
     font-size: 4.5em;
+  }
+  .detailedBookmark .focusedBookmarkContent p {
+    font-size: 1.8em;
   }
 }
 @media all and (min-width: 700px){
