@@ -24,14 +24,14 @@ const generateBookmarkbodyHTML = (bookmark) => {
         </div></li>`;
     } else {
         return `
-        <li><div class="bookmark inList" id=${bookmark.id}>
+        <li><div class="bookmark inList" id="${bookmark.id}" tabindex="0">
             <div>
                 <h3>${bookmark.title}</h3>
                 <div class="rating-box">
                     ${generateBookmarkRatings(bookmark)}
                 </div>
             </div>
-            <div class="more" aria-pressed="false">
+            <div class="more" aria-pressed="false" role="expand_bookmark">
                 <i class="fas fa-angle-down"></i>
             </div>
         </div></li>`;
@@ -114,7 +114,7 @@ const generateBookmarkRatings = (bookmark) => {
     //console.log(`This site`);
     for (let i = 0; i < bookmark.rating; i++) {
         bookMarkRatings.push(`
-            <i class="fas fa-smile-wink"></i>
+            <i class="fas fa-leaf"></i>
             `);
     }
     return bookMarkRatings.join(" ");
@@ -124,11 +124,8 @@ const generalRatings = () => {
     let html = [];
     for (let i = 1; i <= 5; i++) {
         html.push(`
-            <div class="radio-buttons">  
-            <input type="radio" name="rating" id="rating${i}" value="${i}">
-                <span><i class="fas fa-smile-wink"></i></span>
-                <span>${i}</span>
-            </div>`);
+            <input type="radio" name="rating" id="rating${i}" value="${i}" aria-pressed="false">
+                <label>${i}</label>`);
     }
     return html.join(" ");
 };
@@ -140,19 +137,15 @@ const generateErrorRating = (rating) => {
         if (i === parseInt(rating)) {
             //console.log("Found the Rating we need to check!");
             html.push(`
-            <div class="radio-buttons">  
             <input type="radio" name="rating" id="rating${i}" value="${i}" checked="checked" aria-pressed="false">
-                <span><i class="fas fa-smile-wink"></i></span>
-                <span>${i}</span>
-            </div>`);
+                <label>${i}</label>
+            `);
         } else {
             //console.log(`Adding default values`);
             html.push(`
-            <div class="radio-buttons">  
             <input type="radio" name="rating" id="rating${i}" value="${i}" aria-pressed="false">
-                <span><i class="fas fa-smile-wink"></i></span>
-                <span>${i}</span>
-            </div>`);
+                <label>${i}</label>
+            `);
         }
     }
     return html.join(" ");
@@ -196,11 +189,12 @@ const generateAddEditBookmarkHTML = () => {
                 <input type="text" name="url" id="url" placeholder="Add your link here" value="${url}">
                 <label for="title">Site Title:</label>
                 <input type="text" name="title" id="title" placeholder="Add your title here" value="${title}">
-                <Label for="rating">Rating:
-                <div>
-                ${ratings}
-                </div>
-                </Label>
+                <fieldset>
+                    <legend>Choose a Rating:</legend>
+                    <div class="radio-buttons">
+                    ${ratings}
+                    </div>
+                </fieldset>
                 <textarea name="desc" id="bookmark-description" cols="25" rows="10" placeholder="Add your description here....">${description}</textarea>
                 <div class="button-section">
                     <button class="cancel-button">Cancel</button>
@@ -300,6 +294,18 @@ const handleNewBookmark = function () {
 };
 
 /// -----------------FUNCTION FOR EXPANDER----------------------(Big because I forget where it is sometimes)--------------------
+const handleEnterPressDetails = function () {
+    $(`main`).keydown( function(){
+        // Trying to log enters...
+        // console.log(event.which);
+        // let pressedKey = $(event.which);
+        // if(pressedKey === 13){
+        //     const id = getIdFromElement(event.currentTarget);
+        //     console.log(id);
+        // }
+    });
+}
+
 const handleBookMarkDetails = function () {
     $(`main`).on(`click`, `div.more`, (event) => {
         checkIfWeAreInAnError();
@@ -473,6 +479,7 @@ const bindEventListeners = function () {
     handleCreate();
     handleInLineEdit();
     handleInlineEditBookmarkDone();
+    handleEnterPressDetails();
 };
 
 // This object contains the only exposed methods from this module:

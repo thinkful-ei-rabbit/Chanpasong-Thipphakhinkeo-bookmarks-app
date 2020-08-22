@@ -1,16 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap');
+
+*{
+  font-family: 'DM Serif Display', serif;
+}
+
 html, body {
   max-width: 100%;
   height: 100%;
   overflow-x: hidden;
 }
+body{
+  background-image: url("../images/secretGarden.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+}
 main {
   margin: 0;
   display: flex;
   justify-content: center;
-  background-image: url("../images/GRIS___Unused_Blossom.0.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
+  height: 100%;
 }
 h1{
   margin:0;
@@ -27,6 +37,16 @@ h2{
 }
 h3{
   font-size: 1.8em;
+}
+a:link{
+  text-decoration: none;
+  color: #fff;
+}
+a:visited{
+  color: #476762;
+}
+a:hover{
+  color: #B06F63;
 }
 #bookmark-appWindow{
   width: 100%;
@@ -82,8 +102,10 @@ h3{
 .bookmark-list li div.bookmark {
   border: solid #000 3px;
   padding: 10px 5px;
+  padding-bottom: 20px;
+  padding-left: 30px;
   margin: 1px;
-  background: white;
+  background: #C1BC98;
 }
 .bookmark-list div.more{
   cursor: pointer;
@@ -114,9 +136,6 @@ div.bookmark.inList{
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-div.bookmark.inList div.more{
-
 }
 
 div h4 {
@@ -157,12 +176,12 @@ div h4 {
   height: 0;  
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
-  border-bottom: 10px solid #c51244;
+  border-bottom: 10px solid #AD7757;
   position: absolute;  
   top: -10px; 
 }
 .errorbox-form{
-  background: #c51244;
+  background: #AD7757;
   padding: 10px;
   border-radius: 0;
   position: relative; 
@@ -170,7 +189,7 @@ div h4 {
   box-shadow: 1px 1px 1px #aaaaaa;
   margin-top: 10px;
   color: #fff;
-  width: 30%;
+  width: 90%;
   align-self: center;
 }
 .errorbox-form p {
@@ -218,10 +237,9 @@ div h4 {
   font-size: 2.5em;
 }
 .detailedBookmark .focusedBookmarkContent .visit-box{
-  border: solid 3px lightgray;
-  background-color: lightgray;
+  font-size: 2.2em;
   padding: 10px 15px;
-  margin: 20px 0;
+  margin: 20px 0 10px;
 }
 
 .detailedBookmark .focusedBookmarkContent p {
@@ -229,13 +247,16 @@ div h4 {
   height: 150px;
   width: 100%;
 }
-
+/* Delete Button */
 .detailedBookmark button {
   border-style: none;
   align-self: flex-end;
   color: #fff;
-  background-color: red;
+  background-color: #983037;
   cursor: pointer;
+  font-size: 2.3em;
+  padding: 10px 15px;
+  margin-right: 2%;
 }
 
 /*-----------------------------------------------------------EDIT SCREEN STYLES---------------------------------------------**/
@@ -256,8 +277,9 @@ div h4 {
   padding: 0px;
 }
 .bookmark-appWindow-edit label{
-  font-size: 2em;
+  font-size: 30px;
   margin-bottom: 10px;
+  color: #fff;
 }
 form input[type="text"]{
   margin-bottom: 20px;
@@ -276,32 +298,28 @@ form input[type="text"]{
   width: 100%;
   justify-content: space-between;
 }
-form .radio-buttons{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-form .radio-buttons:first-child{
-  margin-left: 30px;
-}
-form .radio-buttons input {
-  font-size: 2em;
-  position: relative;
-  opacity: 100;
-  cursor: pointer;
-  bottom: -50px;
-}
 input[type=radio] {
   border: 0px;
-  height: 1em;
-  width: 40%;
+  width: 6%;
+  height: 1.5em;
 }
-form .radio-buttons:hover input ~ span i{
-  color: royalblue;
+
+form fieldset{
+  border: none;
+  color: #fff;
+  font-size: 2em;
+  width: 100%;
+  padding-left: 0;
 }
-form .radio-buttons input:checked ~ span i{
-  color: red;
+form .radio-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
+form .radio-buttons label{
+  margin: 0 ;
+}
+
 form #bookmark-description{
   white-space: normal;
   width: 100%;
@@ -314,7 +332,7 @@ form .button-section{
   margin-top: 20px;
 }
 form .button-section button{
-  background-color: #296983;
+  background-color: #476762;
   border-style: none;
   font-size: 2em;
   color: #fff;
@@ -346,10 +364,11 @@ form .button-section button{
   .bookmark-appWindow-edit{
     align-items: center;
   }
-  input[type=radio] {
-    border: 0px;
-    height: 1em;
-    width: 19%;
+  .bookmark-appWindow-edit label{
+    font-size: 2em;
+  }
+  .detailedBookmark .focusedBookmarkContent .rating-box{
+    font-size: 4.5em;
   }
 }
 @media all and (min-width: 700px){
