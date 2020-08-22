@@ -295,16 +295,16 @@ const handleNewBookmark = function () {
 
 /// -----------------FUNCTION FOR EXPANDER----------------------(Big because I forget where it is sometimes)--------------------
 const handleEnterPressDetails = function () {
-    $(`main`).keydown( function(){
-        // Trying to log enters...
-        // console.log(event.which);
-        // let pressedKey = $(event.which);
-        // if(pressedKey === 13){
-        //     const id = getIdFromElement(event.currentTarget);
-        //     console.log(id);
-        // }
-    });
-}
+    // $(`main`).keydown( function(){
+    //     // Trying to log enters...
+    //     // console.log(event.which);
+    //     // let pressedKey = $(event.which);
+    //     // if(pressedKey === 13){
+    //     //     const id = getIdFromElement(event.currentTarget);
+    //     //     console.log(id);
+    //     // }
+    // });
+};
 
 const handleBookMarkDetails = function () {
     $(`main`).on(`click`, `div.more`, (event) => {
