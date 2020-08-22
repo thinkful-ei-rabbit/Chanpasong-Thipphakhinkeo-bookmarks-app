@@ -221,7 +221,7 @@ div h4 {
   align-items: center;
 }
 .detailedBookmark .focusedBookmarkTitle .inline-edit.done{
-  border-style: outset;
+  color: #fff;
   border-radius: 2px;
   border-width: 2px;
 }
