@@ -125,7 +125,7 @@ const generalRatings = () => {
     for (let i = 1; i <= 5; i++) {
         html.push(`
             <input type="radio" name="rating" id="rating${i}" value="${i}" aria-pressed="false">
-                <label>${i}</label>`);
+            <label for="rating${i}">${i}</label>`);
     }
     return html.join(" ");
 };
@@ -138,13 +138,13 @@ const generateErrorRating = (rating) => {
             //console.log("Found the Rating we need to check!");
             html.push(`
             <input type="radio" name="rating" id="rating${i}" value="${i}" checked="checked" aria-pressed="false">
-                <label>${i}</label>
+                <label for="rating${i}">${i}</label>
             `);
         } else {
             //console.log(`Adding default values`);
             html.push(`
             <input type="radio" name="rating" id="rating${i}" value="${i}" aria-pressed="false">
-                <label>${i}</label>
+                <label for="rating${i}>${i}</label>
             `);
         }
     }
