@@ -4,11 +4,13 @@ import bookmark from './bookmark';
 const bookmarks = [];
 const editAdd = {
   edit: false,
-  add: false
+  add: false,
+  editId: null,
 };
 const filterValue = 1;
 const detailed = false;
 const error = false;
+const deleteError = false;
 const errorMessage = "";
 let errorPlaceHolder = {
   title: "",
@@ -83,6 +85,7 @@ export default {
   editAdd,
   filterValue,
   error,
+  deleteError,
   errorPlaceHolder,
   errorMessage,
   findById,

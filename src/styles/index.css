@@ -155,12 +155,12 @@ div h4 {
   height: 0;  
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
-  border-bottom: 10px solid #c51244;
+  border-bottom: 10px solid #AD7757;
   position: absolute;  
   top: -10px; 
 }
 .errorbox{
-  background: #c51244;
+  background: #AD7757;
   padding: 10px;
   border-radius: 0;
   position: relative; 
@@ -249,15 +249,23 @@ div h4 {
   font-size: 1.2em;
 }
 /* Delete Button */
+.detailedBookmark div.deleteBox{
+  align-self: flex-end;
+  display: flex;
+  margin-right: 2%;
+}
+.detailedBookmark .deleteError{
+  background-color: #AD7757;
+  color: #fff;
+  padding: 0 10px 10px;
+}
 .detailedBookmark button {
   border-style: none;
-  align-self: flex-end;
   color: #fff;
   background-color: #983037;
   cursor: pointer;
   font-size: 2.3em;
   padding: 10px 15px;
-  margin-right: 2%;
 }
 
 /*-----------------------------------------------------------EDIT SCREEN STYLES---------------------------------------------**/
